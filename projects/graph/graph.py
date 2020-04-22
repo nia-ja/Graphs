@@ -8,38 +8,85 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+        """
+        {
+            A: {},
+            B: {},
+            C: {},
+            D: {}
+        }
+        """
 
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex does not exist!")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # create a plan to visit queue and add starting_vertex to it
+        plan_to_visit = Queue()
+        plan_to_visit.enqueue(starting_vertex)
+        # create a set for visited_vertices
+        visited_vertices = set()
+        # while the plan_to visit queue is not Empty:
+        while plan_to_visit.size() > 0:
+            # dequeue the first vertex on the queue
+            current_vertex = plan_to_visit.dequeue()
+            # if its not been visited
+            if current_vertex not in visited_vertices:
+                # print the vertex
+                print(current_vertex)
+                # mark it as visited, (add it to visited_verticles)
+                visited_vertices.add(current_vertex)
+                # add all unvisited neighbors to the queue
+                for neighbor in self.get_neighbors(current_vertex):
+                    if neighbor not in visited_vertices:
+                        plan_to_visit.enqueue(neighbor)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # create a plan to visit stack and add starting_vertex to it
+        plan_to_visit = Stack()
+        plan_to_visit.push(starting_vertex)
+        # create a set for visited_vertices
+        visited_vertices = set()
+        # while the plan_to visit stack is not Empty:
+        while plan_to_visit.size() > 0:
+            # pop the first vertex on the stack
+            current_vertex = plan_to_visit.pop()
+            # if its not been visited
+            if current_vertex not in visited_vertices:
+                # print the vertex
+                print(current_vertex)
+                # mark it as visited, (add it to visited_verticles)
+                visited_vertices.add(current_vertex)
+                # add all unvisited neighbors to the queue
+                for neighbor in self.get_neighbors(current_vertex):
+                    if neighbor not in visited_vertices:
+                        plan_to_visit.push(neighbor)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -56,7 +103,20 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # create a empty queue, and enqueue a PATH to the starting vertex
+        # queue.enqueue([starting_vertex])
+        # create a set for visited vertices
+        # while the queue is not empty
+            # dequeue the first PATH
+            # grab the last vertex in the path
+            # if it hasn't been visited 
+                # check if its the target 
+                    # Return the path 
+                # mark it as visited
+                # make new versions of the current path, with each neighbor added to them
+                    # duplicate the path
+                    # add the neighbor
+                    # add the new path to the queue
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -103,6 +163,7 @@ if __name__ == '__main__':
     '''
     print(graph.vertices)
 
+    print("BFT")
     '''
     Valid BFT paths:
         1, 2, 3, 4, 5, 6, 7
@@ -119,7 +180,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 5, 6
     '''
     graph.bft(1)
-
+    print("DFT")
     '''
     Valid DFT paths:
         1, 2, 3, 5, 4, 6, 7
