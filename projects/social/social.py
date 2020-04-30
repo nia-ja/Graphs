@@ -1,5 +1,21 @@
 import random
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -69,11 +85,33 @@ class SocialGraph:
 
         Returns a dictionary containing every user in that user's
         extended network with the shortest friendship path between them.
+        (shortest, wide - BFS, longest, deep - DFS)
+        The key is the friend's ID and the value is the path.
 
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        q = Queue()
+        q.enqueue([user_id])
+
+        while q.size() > 0:
+            path = q.dequeue()
+            friend = path[-1]
+            # print(path, 'path)
+
+            if friend not in visited:
+                visited[friend] = path
+                # print(visited, 'visited')
+                # print(self.friendships[friend], 'friend')
+                for neighbor in self.friendships[friend]:
+                    # print(neighbor)
+                    path_copy = path.copy()
+                    path_copy.append(neighbor)
+                    # print(path_copy, 'copy')
+                    # print(path_copy, 'path copy')
+                    q.enqueue(path_copy)
+
         return visited
 
 

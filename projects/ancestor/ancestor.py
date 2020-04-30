@@ -1,8 +1,3 @@
-'''
-depth first search will go as high up the ancestor chain as soon as possible
-'''
-
-
 class Queue():
     def __init__(self):
         self.queue = []
@@ -64,6 +59,7 @@ def earliest_ancestor(ancestors, starting_node):
         # grab the last vertex in the path
         current_node = path[-1]
 
+        # edge case what if there are two nodes at same level.
         if len(path) == longest_path_length:
             if current_node < earliest_ancestor:
                 longest_path_length = len(path)
